@@ -108,7 +108,7 @@ export function ContactsPage() {
       {/* Contacts List */}
       <div className="grid grid-cols-2 gap-6">
         {contacts.map((c) => (
-          <div key={c.id} className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div key={c.id} className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                 <div>
@@ -128,7 +128,7 @@ export function ContactsPage() {
                   <button
                     onClick={() => handleDelete(c.id)}
                     className="btn"
-                    style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', padding: '6px 10px' }}
+                    style={{ background: '#FEE2E2', color: 'var(--color-danger)', border: '1px solid #FECACA', padding: '6px 10px' }}
                     title="Delete Contact"
                   >
                     <Trash2 size={15} />
@@ -149,7 +149,7 @@ export function ContactsPage() {
               </div>
             </div>
 
-            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--bg-card-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               <span>Verified Contact</span>
               <a
                 href={`tel:${c.phone}`}
@@ -170,19 +170,19 @@ export function ContactsPage() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0, 0, 0, 0.75)',
-          backdropFilter: 'blur(5px)',
+          background: 'rgba(15, 23, 42, 0.45)',
+          backdropFilter: 'blur(4px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 1000,
           padding: '20px'
         }}>
-          <div className="card" style={{ maxWidth: '480px', width: '100%' }}>
-            <h2 style={{ fontSize: '1.3rem', marginBottom: '16px' }}>Add Trusted Emergency Contact</h2>
+          <div className="card" style={{ maxWidth: '480px', width: '100%', background: '#FFFFFF', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-lg)' }}>
+            <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: 'var(--text-primary)' }}>Add Trusted Emergency Contact</h2>
 
             {formError && (
-              <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', padding: '10px 14px', borderRadius: '6px', marginBottom: '14px', fontSize: '0.85rem' }}>
+              <div style={{ background: '#FEE2E2', border: '1px solid #FECACA', color: 'var(--color-danger)', padding: '10px 14px', borderRadius: '6px', marginBottom: '14px', fontSize: '0.85rem' }}>
                 {formError}
               </div>
             )}
@@ -224,21 +224,21 @@ export function ContactsPage() {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '6px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer', color: 'var(--text-primary)' }}>
                   <input type="checkbox" checked={notifySms} onChange={(e) => setNotifySms(e.target.checked)} />
                   <span>Send Urgent SMS Broadcast during SOS</span>
                 </label>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer', color: 'var(--text-primary)' }}>
                   <input type="checkbox" checked={notifyWhatsapp} onChange={(e) => setNotifyWhatsapp(e.target.checked)} />
                   <span>Generate Pre-filled WhatsApp Alert Link</span>
                 </label>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', cursor: 'pointer', color: 'var(--text-primary)' }}>
                   <input type="checkbox" checked={consentLocation} onChange={(e) => setConsentLocation(e.target.checked)} />
                   <span>Consent to share live GPS coordinates link</span>
                 </label>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid var(--border-color)' }}>
                 <button type="button" onClick={() => setShowAddModal(false)} className="btn btn-secondary">
                   Cancel
                 </button>
@@ -259,16 +259,16 @@ export function ContactsPage() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'rgba(0, 0, 0, 0.75)',
-          backdropFilter: 'blur(5px)',
+          background: 'rgba(15, 23, 42, 0.45)',
+          backdropFilter: 'blur(4px)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 1000,
           padding: '20px'
         }}>
-          <div className="card" style={{ maxWidth: '520px', width: '100%' }}>
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="card" style={{ maxWidth: '520px', width: '100%', background: '#FFFFFF', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-lg)' }}>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
               <Eye size={20} color="var(--color-primary)" />
               <span>Emergency Alert Message Preview</span>
             </h3>
@@ -280,20 +280,21 @@ export function ContactsPage() {
                 <div style={{ marginBottom: '16px' }}>
                   <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>SMS Text:</div>
                   <pre style={{
-                    background: 'var(--bg-main)',
-                    border: '1px solid var(--bg-card-border)',
+                    background: '#F8FAFC',
+                    border: '1px solid var(--border-color)',
                     borderRadius: 'var(--border-radius-sm)',
                     padding: '14px',
                     whiteSpace: 'pre-wrap',
                     fontSize: '0.82rem',
-                    color: '#f8fafc',
-                    fontFamily: 'monospace'
+                    color: 'var(--text-primary)',
+                    fontFamily: 'monospace',
+                    lineHeight: 1.5
                   }}>
                     {previewData.sms_text}
                   </pre>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', paddingTop: '10px', borderTop: '1px solid var(--border-color)' }}>
                   <a
                     href={previewData.whatsapp_url}
                     target="_blank"

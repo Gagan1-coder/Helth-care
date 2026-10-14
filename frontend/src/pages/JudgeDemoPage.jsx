@@ -122,8 +122,8 @@ export function JudgeDemoPage() {
     <div className="container" style={{ padding: '30px 20px 60px' }}>
       {/* Top Banner */}
       <div style={{
-        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%)',
-        border: '1px solid #f59e0b',
+        background: '#FFFBEB',
+        border: '1px solid #FDE68A',
         borderRadius: 'var(--border-radius-md)',
         padding: '20px',
         marginBottom: '30px',
@@ -134,12 +134,12 @@ export function JudgeDemoPage() {
         gap: '15px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Award size={32} color="#f59e0b" />
+          <Award size={32} color="var(--color-warning)" />
           <div>
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fef3c7' }}>
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#78350F' }}>
               LifeLink AI — Evaluator & Judge Live Demonstration Mode
             </h1>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+            <p style={{ fontSize: '0.85rem', color: '#92400E' }}>
               Interactive test console for evaluating real GPS processing, hospital ranking, Agentic AI, and Federated Learning safely without triggering live cellular SMS bills.
             </p>
           </div>
@@ -155,7 +155,7 @@ export function JudgeDemoPage() {
       <div className="grid grid-cols-3 gap-6">
         {/* Left Column: Select Scenario */}
         <div>
-          <h2 style={{ fontSize: '1.15rem', marginBottom: '14px' }}>1. Select Demonstration Scenario</h2>
+          <h2 style={{ fontSize: '1.15rem', marginBottom: '14px', color: 'var(--text-primary)' }}>1. Select Demonstration Scenario</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
             {scenarios.map((s) => (
               <div
@@ -169,8 +169,9 @@ export function JudgeDemoPage() {
                 className="card"
                 style={{
                   cursor: isRunning ? 'default' : 'pointer',
-                  border: activeScenario === s.id ? '2px solid #f59e0b' : '1px solid var(--bg-card-border)',
-                  background: activeScenario === s.id ? 'rgba(245, 158, 11, 0.08)' : 'var(--bg-card)'
+                  border: activeScenario === s.id ? '2px solid #F59E0B' : '1px solid var(--border-color)',
+                  background: activeScenario === s.id ? '#FFFBEB' : '#FFFFFF',
+                  boxShadow: 'var(--shadow-sm)'
                 }}
               >
                 <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '4px', color: 'var(--text-primary)' }}>
@@ -186,8 +187,8 @@ export function JudgeDemoPage() {
           <button
             onClick={handleStartDemo}
             disabled={isRunning}
-            className="btn"
-            style={{ width: '100%', background: '#f59e0b', color: '#000', fontWeight: 800, padding: '12px' }}
+            className="btn btn-primary"
+            style={{ width: '100%', fontWeight: 700, padding: '12px', justifyContent: 'center' }}
           >
             <PlayCircle size={18} />
             <span>{isRunning ? 'Running Simulation...' : 'Execute Live Walkthrough'}</span>
@@ -196,11 +197,11 @@ export function JudgeDemoPage() {
 
         {/* Right Columns (2 Spans): Execution Stream */}
         <div style={{ gridColumn: 'span 2' }}>
-          <div className="card" style={{ minHeight: '440px', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--bg-card-border)', paddingBottom: '12px' }}>
+          <div className="card" style={{ minHeight: '440px', display: 'flex', flexDirection: 'column', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <CheckCircle2 size={18} color="#10b981" />
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>Real-Time Verification Log Stream</h3>
+                <CheckCircle2 size={18} color="var(--color-success)" />
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>Real-Time Verification Log Stream</h3>
               </div>
               <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 Target: {currentScen.locationName}
@@ -209,8 +210,8 @@ export function JudgeDemoPage() {
 
             {simulatedLog.length > 0 ? (
               <div style={{
-                background: 'var(--bg-main)',
-                border: '1px solid var(--bg-card-border)',
+                background: '#F8FAFC',
+                border: '1px solid var(--border-color)',
                 borderRadius: 'var(--border-radius-sm)',
                 padding: '16px',
                 flexGrow: 1,
@@ -224,7 +225,7 @@ export function JudgeDemoPage() {
                 {simulatedLog.map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', gap: '10px' }}>
                     <span style={{ color: 'var(--text-muted)' }}>[{item.time}]</span>
-                    <span style={{ color: item.msg.startsWith('✓') || item.msg.startsWith('🎉') ? '#4ade80' : 'var(--text-primary)' }}>
+                    <span style={{ color: item.msg.startsWith('✓') || item.msg.startsWith('🎉') ? 'var(--color-success)' : 'var(--text-primary)', fontWeight: item.msg.startsWith('✓') || item.msg.startsWith('🎉') ? 600 : 400 }}>
                       {item.msg}
                     </span>
                   </div>
@@ -232,9 +233,9 @@ export function JudgeDemoPage() {
               </div>
             ) : (
               <div style={{ textAlign: 'center', margin: 'auto', padding: '40px 20px', color: 'var(--text-secondary)' }}>
-                <PlayCircle size={44} color="#f59e0b" style={{ margin: '0 auto 12px' }} />
-                <h4 style={{ marginBottom: '6px' }}>Ready to Execute</h4>
-                <p style={{ fontSize: '0.85rem', maxWidth: '380px', margin: '0 auto' }}>
+                <PlayCircle size={44} color="var(--color-warning)" style={{ margin: '0 auto 12px' }} />
+                <h4 style={{ marginBottom: '6px', color: 'var(--text-primary)' }}>Ready to Execute</h4>
+                <p style={{ fontSize: '0.85rem', maxWidth: '380px', margin: '0 auto', color: 'var(--text-secondary)' }}>
                   Click "Execute Live Walkthrough" to test real GPS attachment, hospital lookup, Agentic AI, and Federated Learning.
                 </p>
               </div>

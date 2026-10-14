@@ -19,7 +19,7 @@ export const translations = {
     quick_call_women: "1091 Women Helpline",
 
     // SOS Buttons & Triggers
-    sos_press_hold: "HOLD FOR EMERGENCY",
+    sos_press_hold: "PRESS & HOLD TO SEND SOS",
     sos_release_cancel: "Release to Cancel",
     sos_countdown_label: "Activating SOS in",
     sos_activated_title: "EMERGENCY SOS BROADCAST ACTIVE",

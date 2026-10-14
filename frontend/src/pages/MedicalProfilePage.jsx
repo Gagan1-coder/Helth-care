@@ -89,23 +89,23 @@ export function MedicalProfilePage() {
         </p>
       </div>
 
-      <div className="card" style={{ marginBottom: '25px', background: 'rgba(2, 132, 199, 0.05)', borderColor: 'rgba(2, 132, 199, 0.3)' }}>
+      <div className="card" style={{ marginBottom: '25px', background: 'var(--bg-soft-blue)', borderColor: '#BAE6FD', boxShadow: 'none' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Shield size={20} color="var(--color-primary)" />
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.85rem', color: 'var(--color-primary)', fontWeight: 600 }}>
             Strict Privacy Safeguard: Medical profile data is never made public or used for marketing.
           </span>
         </div>
       </div>
 
       {saveSuccess && (
-        <div style={{ background: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.3)', color: '#4ade80', padding: '12px 16px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ background: '#DCFCE7', border: '1px solid #86EFAC', color: 'var(--color-success)', padding: '12px 16px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <CheckCircle2 size={18} />
           <span>Medical profile saved securely with consent status updated.</span>
         </div>
       )}
 
-      <form onSubmit={handleSave} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <form onSubmit={handleSave} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '16px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '15px' }}>
           <div>
             <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }}>
@@ -177,7 +177,7 @@ export function MedicalProfilePage() {
         </div>
 
         {/* Explicit Consent Checkbox */}
-        <div style={{ background: 'var(--bg-main)', padding: '14px', borderRadius: '8px', border: '1px solid var(--bg-card-border)' }}>
+        <div style={{ background: 'var(--bg-soft-blue)', padding: '14px', borderRadius: '8px', border: '1px solid #BAE6FD' }}>
           <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer' }}>
             <input
               type="checkbox"
@@ -204,12 +204,12 @@ export function MedicalProfilePage() {
         </div>
 
         {/* Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '14px', borderTop: '1px solid var(--bg-card-border)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '14px', borderTop: '1px solid var(--border-color)' }}>
           <button
             type="button"
             onClick={handlePurge}
             className="btn"
-            style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', fontSize: '0.85rem' }}
+            style={{ background: '#FEE2E2', color: 'var(--color-danger)', border: '1px solid #FECACA', fontSize: '0.85rem' }}
           >
             <Trash2 size={16} />
             <span>Purge My Medical Data</span>

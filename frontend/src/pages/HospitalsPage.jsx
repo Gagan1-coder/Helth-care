@@ -57,17 +57,24 @@ export function HospitalsPage() {
 
   return (
     <div className="container" style={{ padding: '30px 20px 60px' }}>
-      <div style={{ marginBottom: '25px' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '8px' }}>
-          {t('hospital_search_title')}
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
-          Evidence-based discovery across Bhatkal, Uttara Kannada, and Karnataka. Ranked by verified distance and emergency readiness.
-        </p>
+      <div style={{ marginBottom: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <h1 style={{ fontSize: '2rem', marginBottom: '8px', color: 'var(--text-primary)' }}>
+            {t('hospital_search_title')}
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+            Evidence-based discovery across Bhatkal, Uttara Kannada, and Karnataka. Ranked by verified distance and emergency readiness.
+          </p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span className="badge badge-info" style={{ fontSize: '0.82rem', padding: '6px 12px' }}>
+            {hospitals.length} Verified Facilities Available
+          </span>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="card" style={{ marginBottom: '30px' }}>
+      <div className="card" style={{ marginBottom: '30px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
         <form onSubmit={handleSearch} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
           {/* Query input */}
           <div style={{ position: 'relative' }}>
@@ -103,14 +110,14 @@ export function HospitalsPage() {
           </select>
 
           {/* Search Button */}
-          <button type="submit" className="btn btn-primary" disabled={loading}>
+          <button type="submit" className="btn btn-primary" disabled={loading} style={{ justifyContent: 'center' }}>
             <Search size={16} />
             <span>{loading ? 'Searching...' : 'Search Facilities'}</span>
           </button>
         </form>
 
         {/* Location Origin Pill */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '15px', paddingTop: '12px', borderTop: '1px solid var(--bg-card-border)', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border-color)', fontSize: '0.82rem', color: 'var(--text-secondary)', flexWrap: 'wrap', gap: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <MapPin size={15} color="var(--color-primary)" />
             <span>
@@ -136,9 +143,9 @@ export function HospitalsPage() {
           ))}
         </div>
       ) : (
-        <div className="card" style={{ textAlign: 'center', padding: '40px 20px' }}>
+        <div className="card" style={{ textAlign: 'center', padding: '40px 20px', background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
           <AlertCircle size={40} color="var(--text-muted)" style={{ margin: '0 auto 12px' }} />
-          <h3 style={{ marginBottom: '8px' }}>No facilities found matching query</h3>
+          <h3 style={{ marginBottom: '8px', color: 'var(--text-primary)' }}>No facilities found matching query</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
             Try clearing filters or expanding search radius to Uttara Kannada / Coastal Karnataka.
           </p>

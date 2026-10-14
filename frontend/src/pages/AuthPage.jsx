@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEmergency } from '../context/EmergencyContext';
-import { ShieldCheck, UserCheck, Lock, Mail, User } from 'lucide-react';
+import { UserCheck, Lock, Mail, User } from 'lucide-react';
 
 export function AuthPage() {
   const { setUserId } = useEmergency();
@@ -36,9 +36,11 @@ export function AuthPage() {
   };
 
   return (
-    <div className="container" style={{ padding: '60px 20px', maxWidth: '800px' }}>
-      <div style={{ textAlign: 'center', marginBottom: '35px' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '8px' }}>LifeLink AI Authentication</h1>
+    <div className="container" style={{ padding: '50px 20px 80px', maxWidth: '820px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px' }}>
+          LifeLink AI Authentication
+        </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
           Sign in using Firebase Authentication or select a pre-configured demo emergency profile.
         </p>
@@ -46,13 +48,13 @@ export function AuthPage() {
 
       <div className="grid grid-cols-2 gap-6">
         {/* Fast 1-Click Evaluation Profiles */}
-        <div className="card" style={{ borderColor: 'var(--color-primary)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+        <div className="card" style={{ background: '#FFFFFF' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
             <UserCheck size={20} color="var(--color-primary)" />
-            <h2 style={{ fontSize: '1.15rem' }}>Quick Demo Profiles</h2>
+            <h2 style={{ fontSize: '1.15rem', color: 'var(--text-primary)' }}>Quick Demo Profiles</h2>
           </div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
-            Instant 1-click access configured with realistic location, contacts, and medical profiles.
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: 1.4 }}>
+            Instant 1-click access pre-configured with realistic location, emergency contacts, and medical profiles.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -69,12 +71,13 @@ export function AuthPage() {
                   background: 'var(--bg-main)',
                   border: '1px solid var(--bg-card-border)',
                   color: 'var(--text-primary)',
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  transition: 'border-color 0.15s ease'
                 }}
               >
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>{p.name}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{p.location}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{p.location}</div>
                 </div>
                 <span className="badge badge-info" style={{ fontSize: '0.7rem' }}>{p.role}</span>
               </button>
@@ -83,15 +86,15 @@ export function AuthPage() {
         </div>
 
         {/* Firebase Email/Password Sign-in */}
-        <div className="card">
-          <h2 style={{ fontSize: '1.15rem', marginBottom: '14px' }}>
+        <div className="card" style={{ background: '#FFFFFF' }}>
+          <h2 style={{ fontSize: '1.15rem', marginBottom: '14px', color: 'var(--text-primary)' }}>
             {isRegister ? 'Create Patient Account' : 'Sign In with Email'}
           </h2>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {isRegister && (
               <div>
-                <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Full Name</label>
+                <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Full Name</label>
                 <input
                   type="text"
                   placeholder="Your Name"
@@ -104,7 +107,7 @@ export function AuthPage() {
             )}
 
             <div>
-              <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Email Address</label>
+              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Email Address</label>
               <input
                 type="email"
                 placeholder="name@example.com"
@@ -116,7 +119,7 @@ export function AuthPage() {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Password</label>
+              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Password</label>
               <input
                 type="password"
                 placeholder="••••••••"
@@ -135,7 +138,7 @@ export function AuthPage() {
           <div style={{ marginTop: '16px', textAlign: 'center', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
             <button
               onClick={() => setIsRegister(!isRegister)}
-              style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}
+              style={{ color: 'var(--color-primary)', textDecoration: 'underline', fontWeight: 600 }}
             >
               {isRegister ? 'Already have an account? Sign In' : 'Need an account? Register'}
             </button>

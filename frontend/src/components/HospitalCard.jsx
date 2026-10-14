@@ -1,16 +1,16 @@
 import React from 'react';
-import { Hospital, Phone, Navigation, Clock, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Hospital, Phone, Navigation, Clock, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export function HospitalCard({ facility }) {
   const { t } = useLanguage();
 
   return (
-    <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#FFFFFF' }}>
       <div>
         {/* Top Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3 }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3 }}>
             {facility.name}
           </h3>
           {facility.open_24x7 && (
@@ -29,12 +29,13 @@ export function HospitalCard({ facility }) {
         <div style={{
           display: 'flex',
           gap: '12px',
-          background: 'rgba(2, 132, 199, 0.08)',
+          background: 'var(--bg-soft-blue)',
+          border: '1px solid #BAE6FD',
           padding: '8px 12px',
           borderRadius: 'var(--border-radius-sm)',
           marginBottom: '12px',
           fontSize: '0.85rem',
-          color: 'var(--text-primary)'
+          color: 'var(--color-primary)'
         }}>
           {facility.distance_km !== null && facility.distance_km !== undefined ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -47,8 +48,8 @@ export function HospitalCard({ facility }) {
 
           {facility.drive_time_minutes && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Clock size={15} color="#f59e0b" />
-              <span>~{facility.drive_time_minutes} mins</span>
+              <Clock size={15} color="var(--color-warning)" />
+              <span>~{facility.drive_time_minutes} mins drive</span>
             </div>
           )}
         </div>
@@ -62,21 +63,22 @@ export function HospitalCard({ facility }) {
                 fontSize: '0.72rem',
                 padding: '3px 8px',
                 borderRadius: '4px',
-                background: 'var(--bg-main)',
+                background: '#F1F5F9',
                 border: '1px solid var(--bg-card-border)',
-                color: 'var(--text-secondary)'
+                color: 'var(--text-secondary)',
+                fontWeight: 500
               }}
             >
               {svc}
             </span>
           ))}
           {facility.has_icu && (
-            <span style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', fontWeight: 600 }}>
+            <span className="badge badge-emergency" style={{ fontSize: '0.72rem', padding: '2px 8px' }}>
               ICU Equipped
             </span>
           )}
           {facility.has_ambulance && (
-            <span style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: 'rgba(34, 197, 94, 0.1)', color: '#22c55e', fontWeight: 600 }}>
+            <span className="badge badge-success" style={{ fontSize: '0.72rem', padding: '2px 8px' }}>
               Ambulance Base
             </span>
           )}
@@ -84,22 +86,22 @@ export function HospitalCard({ facility }) {
 
         {/* Explainability / Match Reason */}
         {facility.match_reason && (
-          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '14px', fontStyle: 'italic', display: 'flex', gap: '6px', alignItems: 'flex-start' }}>
-            <ShieldCheck size={14} color="#10b981" style={{ flexShrink: 0, marginTop: '2px' }} />
+          <div style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', marginBottom: '14px', display: 'flex', gap: '6px', alignItems: 'flex-start' }}>
+            <ShieldCheck size={14} color="var(--color-success)" style={{ flexShrink: 0, marginTop: '2px' }} />
             <span>{facility.match_reason}</span>
           </div>
         )}
       </div>
 
       {/* Action Buttons */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', paddingTop: '10px', borderTop: '1px solid var(--bg-card-border)' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', paddingTop: '12px', borderTop: '1px solid var(--bg-card-border)' }}>
         {facility.phone ? (
           <a
             href={`tel:${facility.phone}`}
             className="btn btn-emergency"
             style={{ fontSize: '0.85rem', padding: '8px 12px' }}
           >
-            <Phone size={15} />
+            <Phone size={14} />
             <span>Call</span>
           </a>
         ) : (
@@ -108,7 +110,7 @@ export function HospitalCard({ facility }) {
             className="btn btn-secondary"
             style={{ fontSize: '0.82rem', padding: '8px 12px', opacity: 0.6 }}
           >
-            <span>Direct Line N/A</span>
+            <span>No Phone</span>
           </button>
         )}
 
@@ -119,7 +121,7 @@ export function HospitalCard({ facility }) {
           className="btn btn-primary"
           style={{ fontSize: '0.85rem', padding: '8px 12px' }}
         >
-          <Navigation size={15} />
+          <Navigation size={14} />
           <span>{t('get_directions')}</span>
         </a>
       </div>

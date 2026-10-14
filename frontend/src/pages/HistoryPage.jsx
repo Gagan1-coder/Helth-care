@@ -33,7 +33,7 @@ export function HistoryPage() {
       case 'resolved':
         return <span className="badge badge-success">Resolved</span>;
       case 'cancelled':
-        return <span className="badge" style={{ background: '#475569', color: '#cbd5e1' }}>Cancelled</span>;
+        return <span className="badge" style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #CBD5E1' }}>Cancelled</span>;
       case 'notification_sent':
         return <span className="badge badge-info">Alerts Sent</span>;
       case 'created':
@@ -47,7 +47,7 @@ export function HistoryPage() {
   return (
     <div className="container" style={{ padding: '30px 20px 60px', maxWidth: '850px' }}>
       <div style={{ marginBottom: '25px' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '8px' }}>Emergency Event History</h1>
+        <h1 style={{ fontSize: '2rem', marginBottom: '8px', color: 'var(--text-primary)' }}>Emergency Event History</h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
           Historical record and forensic timeline of emergency calls initiated from this account.
         </p>
@@ -60,7 +60,7 @@ export function HistoryPage() {
           {events.map((ev) => {
             const isExpanded = expandedId === ev.id;
             return (
-              <div key={ev.id} className="card">
+              <div key={ev.id} className="card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
                 <div
                   onClick={() => toggleExpand(ev.id)}
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', flexWrap: 'wrap', gap: '10px' }}
@@ -70,17 +70,17 @@ export function HistoryPage() {
                       width: '40px',
                       height: '40px',
                       borderRadius: '8px',
-                      background: ev.status === 'resolved' ? 'rgba(34, 197, 94, 0.15)' : ev.status === 'cancelled' ? 'rgba(100, 116, 139, 0.2)' : 'rgba(220, 38, 38, 0.15)',
+                      background: ev.status === 'resolved' ? '#DCFCE7' : ev.status === 'cancelled' ? '#F1F5F9' : '#FEE2E2',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
                       {ev.status === 'resolved' ? (
-                        <CheckCircle size={20} color="#22c55e" />
+                        <CheckCircle size={20} color="#16A34A" />
                       ) : ev.status === 'cancelled' ? (
-                        <XCircle size={20} color="#94a3b8" />
+                        <XCircle size={20} color="#64748B" />
                       ) : (
-                        <ShieldAlert size={20} color="#ef4444" />
+                        <ShieldAlert size={20} color="#DC2626" />
                       )}
                     </div>
 
@@ -102,7 +102,7 @@ export function HistoryPage() {
 
                 {/* Expanded Details and Timeline */}
                 {isExpanded && (
-                  <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--bg-card-border)' }}>
+                  <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
                     {ev.location && (
                       <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <MapPin size={15} color="var(--color-primary)" />
@@ -114,7 +114,7 @@ export function HistoryPage() {
                       Audit Timeline:
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', background: 'var(--bg-main)', padding: '12px', borderRadius: '6px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', background: '#F8FAFC', border: '1px solid var(--border-color)', padding: '12px', borderRadius: '6px' }}>
                       {ev.timeline?.map((item, idx) => (
                         <div key={idx} style={{ display: 'flex', gap: '8px', fontSize: '0.8rem' }}>
                           <span style={{ color: 'var(--text-muted)', flexShrink: 0 }}>
@@ -128,7 +128,7 @@ export function HistoryPage() {
                     </div>
 
                     {ev.cancellation_reason && (
-                      <div style={{ marginTop: '10px', fontSize: '0.8rem', color: '#fca5a5' }}>
+                      <div style={{ marginTop: '10px', fontSize: '0.8rem', color: 'var(--color-danger)', fontWeight: 600 }}>
                         Cancellation Reason: {ev.cancellation_reason}
                       </div>
                     )}
@@ -139,9 +139,9 @@ export function HistoryPage() {
           })}
         </div>
       ) : (
-        <div className="card" style={{ textAlign: 'center', padding: '50px 20px', color: 'var(--text-secondary)' }}>
+        <div className="card" style={{ textAlign: 'center', padding: '50px 20px', color: 'var(--text-secondary)', background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
           <Clock size={40} color="var(--text-muted)" style={{ margin: '0 auto 12px' }} />
-          <h3 style={{ marginBottom: '6px' }}>No Emergency History</h3>
+          <h3 style={{ marginBottom: '6px', color: 'var(--text-primary)' }}>No Emergency History</h3>
           <p style={{ fontSize: '0.85rem' }}>Your past SOS calls and timeline actions will be archived here.</p>
         </div>
       )}

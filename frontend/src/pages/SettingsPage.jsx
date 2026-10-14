@@ -11,10 +11,6 @@ export function SettingsPage() {
     return document.documentElement.getAttribute('data-contrast') === 'high';
   });
 
-  const [theme, setTheme] = useState(() => {
-    return document.documentElement.getAttribute('data-theme') || 'dark';
-  });
-
   const toggleHighContrast = (e) => {
     const isChecked = e.target.checked;
     setHighContrast(isChecked);
@@ -25,16 +21,10 @@ export function SettingsPage() {
     }
   };
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-  };
-
   return (
     <div className="container" style={{ padding: '30px 20px 60px', maxWidth: '780px' }}>
       <div style={{ marginBottom: '25px' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '8px' }}>{t('settings')} & Accessibility</h1>
+        <h1 style={{ fontSize: '2rem', marginBottom: '8px', color: 'var(--text-primary)' }}>{t('settings')} & Accessibility</h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
           Personalize language, visual contrast, rural low-bandwidth mode, and privacy preferences.
         </p>
@@ -42,10 +32,10 @@ export function SettingsPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {/* Language Selection Card */}
-        <div className="card">
+        <div className="card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
             <Globe size={20} color="var(--color-primary)" />
-            <h3 style={{ fontSize: '1.1rem' }}>Language / ಭಾಷೆ</h3>
+            <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>Language / ಭಾಷೆ</h3>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -56,7 +46,7 @@ export function SettingsPage() {
             >
               <div>
                 <div style={{ fontWeight: 700 }}>English</div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>Standard Clinical Interface</div>
+                <div style={{ fontSize: '0.75rem', opacity: 0.85 }}>Standard Clinical Interface</div>
               </div>
             </button>
 
@@ -67,25 +57,25 @@ export function SettingsPage() {
             >
               <div>
                 <div style={{ fontWeight: 700 }}>ಕನ್ನಡ (Kannada)</div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>ಕರ್ನಾಟಕ ಪ್ರಾದೇಶಿಕ ಭಾಷೆ</div>
+                <div style={{ fontSize: '0.75rem', opacity: 0.85 }}>ಕರ್ನಾಟಕ ಪ್ರಾದೇಶಿಕ ಭಾಷೆ</div>
               </div>
             </button>
           </div>
         </div>
 
         {/* Visual Accessibility Card */}
-        <div className="card">
+        <div className="card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-            <Eye size={20} color="#f59e0b" />
-            <h3 style={{ fontSize: '1.1rem' }}>Visual Accessibility & Contrast</h3>
+            <Eye size={20} color="var(--color-warning)" />
+            <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>Visual Accessibility & Contrast</h3>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}>
               <div>
-                <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>High-Contrast Emergency Mode</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                  Maximizes text contrast on sunlight-exposed mobile screens.
+                <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>High-Contrast Emergency Mode</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  Maximizes text contrast and borders on sunlight-exposed mobile screens.
                 </div>
               </div>
               <input
@@ -96,31 +86,31 @@ export function SettingsPage() {
               />
             </label>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid var(--bg-card-border)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid var(--border-color)' }}>
               <div>
-                <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>Color Theme</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                  Current: {theme === 'dark' ? 'OLED Dark Slate' : 'Clean Surgical Light'}
+                <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Color Theme</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  Professional Light Healthcare (Certified Bright & High-Contrast)
                 </div>
               </div>
-              <button onClick={toggleTheme} className="btn btn-secondary" style={{ fontSize: '0.85rem' }}>
-                Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode
-              </button>
+              <span className="badge badge-info" style={{ fontWeight: 600 }}>
+                Light Mode Active
+              </span>
             </div>
           </div>
         </div>
 
         {/* Evaluation Mode Switcher */}
-        <div className="card" style={{ borderColor: 'rgba(245, 158, 11, 0.4)' }}>
+        <div className="card" style={{ background: 'var(--bg-card)', border: '1px solid #FDE68A', boxShadow: 'var(--shadow-sm)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-            <Sliders size={20} color="#f59e0b" />
-            <h3 style={{ fontSize: '1.1rem' }}>Evaluator & Demonstration Controls</h3>
+            <Sliders size={20} color="var(--color-warning)" />
+            <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>Evaluator & Demonstration Controls</h3>
           </div>
 
           <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}>
             <div>
-              <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>Enable Judge Demo Sandbox</div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Enable Judge Demo Sandbox</div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
                 Suppresses live carrier cellular SMS bills and logs dispatches to local sandbox.
               </div>
             </div>
@@ -134,14 +124,14 @@ export function SettingsPage() {
         </div>
 
         {/* Account & Right to be Forgotten */}
-        <div className="card">
+        <div className="card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-            <Shield size={20} color="#10b981" />
-            <h3 style={{ fontSize: '1.1rem' }}>Account & Data Privacy Rights</h3>
+            <Shield size={20} color="var(--color-success)" />
+            <h3 style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>Account & Data Privacy Rights</h3>
           </div>
 
           <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '14px', lineHeight: 1.5 }}>
-            Active User ID: <strong>{userId}</strong>. Under Indian Digital Personal Data Protection (DPDP) and healthcare privacy standards, you maintain the right to delete all medical profile data at any time.
+            Active User ID: <strong style={{ color: 'var(--text-primary)' }}>{userId}</strong>. Under Indian Digital Personal Data Protection (DPDP) and healthcare privacy standards, you maintain the right to delete all medical profile data at any time.
           </div>
 
           <div style={{ display: 'flex', gap: '10px' }}>
@@ -151,7 +141,7 @@ export function SettingsPage() {
                 window.location.reload();
               }}
               className="btn"
-              style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', fontSize: '0.82rem' }}
+              style={{ background: '#FEE2E2', color: 'var(--color-danger)', border: '1px solid #FECACA', fontSize: '0.82rem' }}
             >
               <Trash2 size={15} />
               <span>Reset Local Cache & Session</span>

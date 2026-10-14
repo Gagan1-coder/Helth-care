@@ -76,8 +76,8 @@ export function AgentPage() {
       <div className="grid grid-cols-3 gap-6">
         {/* Left Column: Intake Parameters */}
         <div>
-          <div className="card" style={{ marginBottom: '20px' }}>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="card" style={{ marginBottom: '20px', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
               <Activity size={18} color="var(--color-primary)" />
               <span>Patient Intake Parameters</span>
             </h3>
@@ -151,7 +151,7 @@ export function AgentPage() {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', marginTop: '6px' }}>
+              <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', marginTop: '6px', justifyContent: 'center' }}>
                 <Play size={16} />
                 <span>{loading ? 'Executing Agent Workflow...' : 'Execute Agent Coordination'}</span>
               </button>
@@ -164,7 +164,7 @@ export function AgentPage() {
           {agentResult ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {/* Executive Summary Card */}
-              <div className="card" style={{ borderLeft: '4px solid var(--color-primary)' }}>
+              <div className="card" style={{ borderLeft: '4px solid var(--color-primary)', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <span className="badge badge-emergency" style={{ fontSize: '0.85rem' }}>
                     URGENCY: {agentResult.urgency_level}
@@ -182,37 +182,37 @@ export function AgentPage() {
               </div>
 
               {/* Explainable Reasoning Trace */}
-              <div className="card">
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div className="card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
                   <Cpu size={18} color="var(--color-primary)" />
                   <span>{t('ai_reasoning_trace')}</span>
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {agentResult.reasoning_trace?.map((step, idx) => (
                     <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.85rem' }}>
-                      <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(2, 132, 199, 0.15)', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, flexShrink: 0 }}>
+                      <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--bg-soft-blue)', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, flexShrink: 0, border: '1px solid #BAE6FD' }}>
                         {idx + 1}
                       </div>
-                      <span style={{ color: 'var(--text-secondary)' }}>{step}</span>
+                      <span style={{ color: 'var(--text-primary)', lineHeight: 1.4, paddingTop: '2px' }}>{step}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Structured Tool Executions Trace */}
-              <div className="card">
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <ShieldCheck size={18} color="#10b981" />
+              <div className="card" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
+                  <ShieldCheck size={18} color="var(--color-success)" />
                   <span>{t('ai_tools_executed')} ({agentResult.tool_executions?.length})</span>
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
                   {agentResult.tool_executions?.map((tool, idx) => (
-                    <div key={idx} style={{ background: 'var(--bg-main)', border: '1px solid var(--bg-card-border)', borderRadius: 'var(--border-radius-sm)', padding: '12px' }}>
+                    <div key={idx} style={{ background: '#F8FAFC', border: '1px solid var(--border-color)', borderRadius: 'var(--border-radius-sm)', padding: '12px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                         <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>{tool.tool_name}</strong>
                         <span className="badge badge-success" style={{ fontSize: '0.7rem' }}>Validated</span>
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>
                         Source: {tool.evidence_source}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
@@ -224,17 +224,17 @@ export function AgentPage() {
               </div>
 
               {/* Vetted First-Aid Protocol */}
-              <div className="card" style={{ background: 'rgba(2, 132, 199, 0.05)', borderColor: 'rgba(2, 132, 199, 0.3)' }}>
+              <div className="card" style={{ background: 'var(--bg-soft-blue)', borderColor: '#BAE6FD', boxShadow: 'none' }}>
                 <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', marginBottom: '4px' }}>
                   {agentResult.first_aid?.title}
                 </h3>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '14px' }}>
-                  Evidence Source: <strong>{agentResult.first_aid?.source}</strong>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '14px' }}>
+                  Evidence Source: <strong style={{ color: 'var(--color-primary)' }}>{agentResult.first_aid?.source}</strong>
                 </div>
 
                 <div style={{ marginBottom: '14px' }}>
-                  <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#38bdf8', marginBottom: '8px' }}>Immediate Actions:</div>
-                  <ol style={{ paddingLeft: '18px', fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--color-primary)', marginBottom: '8px' }}>Immediate Actions:</div>
+                  <ol style={{ paddingLeft: '18px', fontSize: '0.85rem', color: 'var(--text-primary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {agentResult.first_aid?.steps?.map((step, idx) => (
                       <li key={idx}>{step}</li>
                     ))}
@@ -242,9 +242,9 @@ export function AgentPage() {
                 </div>
 
                 {agentResult.first_aid?.warnings?.length > 0 && (
-                  <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '6px', padding: '10px 14px' }}>
-                    <div style={{ fontWeight: 700, fontSize: '0.82rem', color: '#f87171', marginBottom: '4px' }}>Critical Warnings:</div>
-                    <ul style={{ paddingLeft: '16px', fontSize: '0.8rem', color: '#fca5a5', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ background: '#FEE2E2', border: '1px solid #FECACA', borderRadius: '6px', padding: '10px 14px' }}>
+                    <div style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--color-danger)', marginBottom: '4px' }}>Critical Warnings:</div>
+                    <ul style={{ paddingLeft: '16px', fontSize: '0.8rem', color: '#991B1B', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                       {agentResult.first_aid?.warnings?.map((w, idx) => (
                         <li key={idx}>{w}</li>
                       ))}
@@ -255,28 +255,28 @@ export function AgentPage() {
 
               {/* User Authorization Gates */}
               {agentResult.actions_awaiting_approval?.length > 0 && (
-                <div className="card" style={{ border: '1px solid #f59e0b' }}>
-                  <h3 style={{ fontSize: '1.1rem', color: '#f59e0b', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div className="card" style={{ border: '1px solid #FDE68A', background: '#FFFBEB' }}>
+                  <h3 style={{ fontSize: '1.1rem', color: '#B45309', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <AlertTriangle size={18} />
                     <span>{t('ai_approvals_required')}</span>
                   </h3>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
+                  <p style={{ fontSize: '0.85rem', color: '#78350F', marginBottom: '12px' }}>
                     In accordance with safety rules, consequential external actions require explicit patient authorization before dispatch.
                   </p>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {agentResult.actions_awaiting_approval.map((action, idx) => (
-                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-main)', borderRadius: '6px' }}>
-                        <span style={{ fontSize: '0.85rem' }}>{action}</span>
+                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: '#FFFFFF', border: '1px solid #FDE68A', borderRadius: '6px' }}>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 500 }}>{action}</span>
                         <button
                           onClick={() => handleAuthorize(idx)}
                           className="btn"
                           disabled={authorizedActions[idx]}
                           style={{
-                            background: authorizedActions[idx] ? '#16a34a' : 'var(--color-primary)',
+                            background: authorizedActions[idx] ? 'var(--color-success)' : 'var(--color-primary)',
                             color: 'white',
                             fontSize: '0.8rem',
-                            padding: '6px 12px'
+                            padding: '6px 14px'
                           }}
                         >
                           {authorizedActions[idx] ? '✓ Authorized' : t('authorize_action')}
@@ -288,10 +288,10 @@ export function AgentPage() {
               )}
             </div>
           ) : (
-            <div className="card" style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-secondary)' }}>
+            <div className="card" style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-secondary)', background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
               <Bot size={44} color="var(--text-muted)" style={{ margin: '0 auto 12px' }} />
-              <h3 style={{ marginBottom: '8px' }}>Coordinator Idle</h3>
-              <p style={{ fontSize: '0.9rem', maxWidth: '420px', margin: '0 auto' }}>
+              <h3 style={{ marginBottom: '8px', color: 'var(--text-primary)' }}>Coordinator Idle</h3>
+              <p style={{ fontSize: '0.9rem', maxWidth: '420px', margin: '0 auto', color: 'var(--text-secondary)' }}>
                 Set patient vital signs on the left and click "Execute Agent Coordination" to observe multi-tool reasoning and clinical recommendations.
               </p>
             </div>
