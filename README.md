@@ -275,3 +275,5 @@ LifeLink-AI/
 
 For the step-by-step evaluator presentation script covering all 14 judge requirements (opening the dashboard, real GPS acquisition, hospital matching in Bhatkal, SOS countdown and cancellation, contacts alert previews, Agentic AI reasoning, Kannada language support, offline PWA, and Federated Learning), consult:
 👉 **[Evaluator & Judge Demonstration Guide](docs/demonstration-guide.md)**.
+#   H e l t h - c a r e  
+ 
