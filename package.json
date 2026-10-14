@@ -1,0 +1,12 @@
+{
+  "name": "lifelink-ai-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LifeLink AI Emergency Healthcare Coordination Root",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "backend": "python -m uvicorn app.main:app --app-dir backend --reload --port 8000",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview"
+  }
+}

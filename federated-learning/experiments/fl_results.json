@@ -1,5 +1,5 @@
 {
-  "experiment_id": "fl_exp_20261014_071705",
+  "experiment_id": "fl_exp_20261014_092634",
   "model_name": "LifeLink Emergency Triage Classifier (MLP)",
   "architecture": "Input(8) -> Dense(16, ReLU) -> Dense(1, Sigmoid)",
   "target_task": "Predict Critical ICU / Emergency Urgency Level",
@@ -61,21 +61,21 @@
           "samples": 350,
           "local_loss": 0.4519,
           "local_accuracy": 82.86,
-          "duration_ms": 0.0
+          "duration_ms": 4.35
         },
         "client_2_manipal_trauma": {
           "hospital_name": "Kasturba Hospital Manipal (KMC)",
           "samples": 650,
           "local_loss": 0.7674,
           "local_accuracy": 57.85,
-          "duration_ms": 2.06
+          "duration_ms": 2.4
         },
         "client_3_cardiac_specialty": {
           "hospital_name": "Coastal Cardiology Emergency Center",
           "samples": 450,
           "local_loss": 0.5077,
           "local_accuracy": 76.67,
-          "duration_ms": 0.99
+          "duration_ms": 1.44
         }
       },
       "global_metrics": {
@@ -92,8 +92,8 @@
         "recall": 21.62,
         "f1_score": 30.77
       },
-      "training_duration_seconds": 0.0,
-      "timestamp": "2026-10-14T07:17:05.871757"
+      "training_duration_seconds": 0.01,
+      "timestamp": "2026-10-14T09:26:34.815237"
     },
     {
       "round_number": 2,
@@ -108,21 +108,21 @@
           "samples": 350,
           "local_loss": 0.4404,
           "local_accuracy": 82.86,
-          "duration_ms": 0.0
+          "duration_ms": 1.01
         },
         "client_2_manipal_trauma": {
           "hospital_name": "Kasturba Hospital Manipal (KMC)",
           "samples": 650,
           "local_loss": 0.7367,
           "local_accuracy": 59.23,
-          "duration_ms": 1.0
+          "duration_ms": 1.01
         },
         "client_3_cardiac_specialty": {
           "hospital_name": "Coastal Cardiology Emergency Center",
           "samples": 450,
           "local_loss": 0.496,
           "local_accuracy": 77.11,
-          "duration_ms": 1.0
+          "duration_ms": 0.99
         }
       },
       "global_metrics": {
@@ -140,7 +140,7 @@
         "f1_score": 30.77
       },
       "training_duration_seconds": 0.0,
-      "timestamp": "2026-10-14T07:17:05.874753"
+      "timestamp": "2026-10-14T09:26:34.819247"
     },
     {
       "round_number": 3,
@@ -155,7 +155,7 @@
           "samples": 350,
           "local_loss": 0.4295,
           "local_accuracy": 83.14,
-          "duration_ms": 1.0
+          "duration_ms": 0.0
         },
         "client_2_manipal_trauma": {
           "hospital_name": "Kasturba Hospital Manipal (KMC)",
@@ -187,7 +187,7 @@
         "f1_score": 30.77
       },
       "training_duration_seconds": 0.0,
-      "timestamp": "2026-10-14T07:17:05.878757"
+      "timestamp": "2026-10-14T09:26:34.824253"
     },
     {
       "round_number": 4,
@@ -209,14 +209,14 @@
           "samples": 650,
           "local_loss": 0.6867,
           "local_accuracy": 63.85,
-          "duration_ms": 1.92
+          "duration_ms": 2.0
         },
         "client_3_cardiac_specialty": {
           "hospital_name": "Coastal Cardiology Emergency Center",
           "samples": 450,
           "local_loss": 0.4764,
           "local_accuracy": 78.22,
-          "duration_ms": 1.01
+          "duration_ms": 1.0
         }
       },
       "global_metrics": {
@@ -234,7 +234,7 @@
         "f1_score": 30.77
       },
       "training_duration_seconds": 0.0,
-      "timestamp": "2026-10-14T07:17:05.881693"
+      "timestamp": "2026-10-14T09:26:34.827253"
     },
     {
       "round_number": 5,
@@ -249,14 +249,14 @@
           "samples": 350,
           "local_loss": 0.4098,
           "local_accuracy": 84.29,
-          "duration_ms": 0.99
+          "duration_ms": 2.21
         },
         "client_2_manipal_trauma": {
           "hospital_name": "Kasturba Hospital Manipal (KMC)",
           "samples": 650,
           "local_loss": 0.6657,
           "local_accuracy": 65.54,
-          "duration_ms": 2.0
+          "duration_ms": 2.25
         },
         "client_3_cardiac_specialty": {
           "hospital_name": "Coastal Cardiology Emergency Center",
@@ -281,10 +281,10 @@
         "f1_score": 30.77
       },
       "training_duration_seconds": 0.0,
-      "timestamp": "2026-10-14T07:17:05.884683"
+      "timestamp": "2026-10-14T09:26:34.831720"
     }
   ],
-  "total_runtime_seconds": 0.03,
+  "total_runtime_seconds": 0.04,
   "is_live_experiment": true,
-  "completed_at": "2026-10-14T07:17:05.884683"
+  "completed_at": "2026-10-14T09:26:34.831720"
 }
