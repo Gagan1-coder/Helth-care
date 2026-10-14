@@ -4,11 +4,15 @@ const API_PREFIX = `${API_BASE_URL}/api/v1`;
 
 async function request(endpoint, options = {}) {
   const url = `${API_PREFIX}${endpoint}`;
+  const token = localStorage.getItem('lifelink_id_token');
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+    ...options.headers,
+  };
+
   const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
+    headers,
     ...options,
   };
 

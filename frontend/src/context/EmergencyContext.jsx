@@ -1,18 +1,35 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { getCurrentLocation } from '../services/geolocation';
+import { 
+  getCurrentLocation, 
+  getPermissionStatus, 
+  getNetworkLocation,
+  createManualLocation, 
+  REGIONAL_MANUAL_LOCATIONS,
+  DEFAULT_FALLBACK_LOCATION
+} from '../services/geolocation';
 
 const EmergencyContext = createContext();
 
 export function EmergencyProvider({ children }) {
   const [userId, setUserId] = useState(() => localStorage.getItem('lifelink_user_id') || 'demo_user');
   const [activeEmergency, setActiveEmergency] = useState(null);
-  const [location, setLocation] = useState(null);
+  
+  // Restore saved location if present, else fallback to Bhatkal Taluka preset so app is always functional
+  const [location, setLocation] = useState(() => {
+    try {
+      const saved = localStorage.getItem('lifelink_saved_location');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return DEFAULT_FALLBACK_LOCATION;
+  });
+
   const [locationLoading, setLocationLoading] = useState(false);
+  const [permissionState, setPermissionState] = useState('prompt');
   const [selectedCategory, setSelectedCategory] = useState('cardiac');
   const [isJudgeDemo, setIsJudgeDemo] = useState(false);
   const [contacts, setContacts] = useState([]);
-  const [networkOnline, setNetworkOnline] = useState(navigator.onLine);
+  const [networkOnline, setNetworkOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true);
 
   // Monitor Network Online / Offline status
   useEffect(() => {
@@ -26,18 +43,103 @@ export function EmergencyProvider({ children }) {
     };
   }, []);
 
-  // Fetch initial location and contacts
+  // Monitor permission changes and attempt high-accuracy GPS
   useEffect(() => {
-    fetchLocation();
+    let permissionObj = null;
+
+    if (typeof navigator !== 'undefined' && navigator.permissions && navigator.permissions.query) {
+      navigator.permissions.query({ name: 'geolocation' }).then((status) => {
+        permissionObj = status;
+        setPermissionState(status.state);
+
+        status.onchange = () => {
+          setPermissionState(status.state);
+          if (status.state === 'granted') {
+            fetchLocation(true);
+          }
+        };
+
+        // If already granted, refresh automatically
+        if (status.state === 'granted') {
+          fetchLocation(false);
+        } else if (status.state === 'denied') {
+          // If denied and current location is not yet set or is error, try network IP
+          tryNetworkFallback();
+        }
+      }).catch(() => {
+        fetchLocation(false);
+      });
+    } else {
+      fetchLocation(false);
+    }
+
     fetchContacts();
   }, [userId]);
 
-  const fetchLocation = async () => {
+  const tryNetworkFallback = async () => {
+    const netLoc = await getNetworkLocation();
+    if (netLoc) {
+      setLocation(netLoc);
+      localStorage.setItem('lifelink_saved_location', JSON.stringify(netLoc));
+    }
+  };
+
+  const fetchLocation = async (forcePrompt = true) => {
     setLocationLoading(true);
+    const status = await getPermissionStatus();
+    setPermissionState(status);
+
     const loc = await getCurrentLocation();
-    setLocation(loc);
+    
+    if (loc.status === 'success') {
+      setLocation(loc);
+      localStorage.setItem('lifelink_saved_location', JSON.stringify(loc));
+    } else if (status === 'denied') {
+      // Keep existing saved location or try network IP so UI remains functional
+      const saved = localStorage.getItem('lifelink_saved_location');
+      if (saved) {
+        try {
+          setLocation(JSON.parse(saved));
+        } catch (e) {
+          setLocation(DEFAULT_FALLBACK_LOCATION);
+        }
+      } else {
+        const netLoc = await getNetworkLocation();
+        if (netLoc) {
+          setLocation(netLoc);
+          localStorage.setItem('lifelink_saved_location', JSON.stringify(netLoc));
+        } else {
+          setLocation(DEFAULT_FALLBACK_LOCATION);
+        }
+      }
+    } else {
+      setLocation(loc);
+    }
+
     setLocationLoading(false);
+    const updatedStatus = await getPermissionStatus();
+    setPermissionState(updatedStatus);
     return loc;
+  };
+
+  const detectNetworkLocation = async () => {
+    setLocationLoading(true);
+    const netLoc = await getNetworkLocation();
+    if (netLoc) {
+      setLocation(netLoc);
+      localStorage.setItem('lifelink_saved_location', JSON.stringify(netLoc));
+    }
+    setLocationLoading(false);
+    return netLoc;
+  };
+
+  const selectManualLocation = (presetId) => {
+    const preset = REGIONAL_MANUAL_LOCATIONS.find((p) => p.id === presetId);
+    if (!preset) return null;
+    const manualLoc = createManualLocation(preset);
+    setLocation(manualLoc);
+    localStorage.setItem('lifelink_saved_location', JSON.stringify(manualLoc));
+    return manualLoc;
   };
 
   const fetchContacts = async () => {
@@ -50,11 +152,15 @@ export function EmergencyProvider({ children }) {
   };
 
   const triggerSOS = async (sosMethod = 'thumb_press', category = selectedCategory, isSimulation = isJudgeDemo) => {
-    // Refresh location if available
     let currentLoc = location;
     if (!currentLoc || currentLoc.status !== 'success') {
       currentLoc = await getCurrentLocation();
-      setLocation(currentLoc);
+      if (currentLoc.status === 'success') {
+        setLocation(currentLoc);
+      } else {
+        currentLoc = DEFAULT_FALLBACK_LOCATION;
+        setLocation(currentLoc);
+      }
     }
 
     const payload = {
@@ -75,12 +181,10 @@ export function EmergencyProvider({ children }) {
     try {
       const res = await api.createEmergency(payload);
       setActiveEmergency(res);
-      // Play brief audio alert beep using Web Audio API
       playEmergencyChime();
       return res;
     } catch (err) {
       console.error('SOS Trigger Error:', err);
-      // Fallback local emergency object for offline resiliency
       const offlineEmergency = {
         id: `offline_${Date.now()}`,
         user_id: userId,
@@ -135,17 +239,15 @@ export function EmergencyProvider({ children }) {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, ctx.currentTime); // A5 note
-      osc.frequency.setValueAtTime(440, ctx.currentTime + 0.15); // A4
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      osc.frequency.setValueAtTime(440, ctx.currentTime + 0.15);
       gain.gain.setValueAtTime(0.3, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + 0.35);
-    } catch (e) {
-      // Audio autoplay blocked or unsupported
-    }
+    } catch (e) {}
   };
 
   return (
@@ -156,7 +258,11 @@ export function EmergencyProvider({ children }) {
         activeEmergency,
         location,
         locationLoading,
+        permissionState,
+        regionalLocations: REGIONAL_MANUAL_LOCATIONS,
         fetchLocation,
+        detectNetworkLocation,
+        selectManualLocation,
         selectedCategory,
         setSelectedCategory,
         isJudgeDemo,

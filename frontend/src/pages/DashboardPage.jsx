@@ -38,7 +38,11 @@ export function DashboardPage() {
     activeEmergency, 
     location, 
     locationLoading, 
+    permissionState,
+    regionalLocations,
     fetchLocation, 
+    detectNetworkLocation,
+    selectManualLocation,
     selectedCategory, 
     setSelectedCategory, 
     cancelEmergency, 
@@ -55,6 +59,7 @@ export function DashboardPage() {
   const [hospitalsLoading, setHospitalsLoading] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showGpsHelp, setShowGpsHelp] = useState(false);
 
   const categories = [
     { id: 'cardiac', label: t('cat_cardiac'), icon: Heart, color: '#E53945' },
@@ -353,66 +358,183 @@ export function DashboardPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
           {/* Location Card showing actual location, accuracy, and last update */}
-          <div className="card">
+          <div className="card" style={{ background: '#FFFFFF' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <MapPin size={18} color="var(--color-primary)" />
-                <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>Your Actual Location</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>Actual Device Location</h3>
               </div>
-              <button
-                onClick={fetchLocation}
-                disabled={locationLoading}
-                style={{ color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.78rem', fontWeight: 600 }}
-              >
-                <RefreshCw size={13} className={locationLoading ? 'spin' : ''} />
-                <span>{locationLoading ? 'Locating...' : 'Refresh'}</span>
-              </button>
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <button
+                  onClick={() => fetchLocation(true)}
+                  disabled={locationLoading}
+                  className="btn btn-outline"
+                  style={{ fontSize: '0.75rem', padding: '4px 8px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                  title="Query browser Geolocation API"
+                >
+                  <RefreshCw size={12} className={locationLoading ? 'spin' : ''} />
+                  <span>{locationLoading ? 'Locating...' : 'Refresh GPS'}</span>
+                </button>
+              </div>
             </div>
 
-            {location && location.status === 'success' ? (
+            {/* Permission Denied / Blocked Notice & Troubleshooter */}
+            {permissionState === 'denied' && (
+              <div style={{ background: '#FFFBEB', border: '1px solid #FDE68A', padding: '10px 12px', borderRadius: '6px', marginBottom: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: '#B45309', fontWeight: 700 }}>
+                    <AlertTriangle size={14} />
+                    <span>Browser Location Denied</span>
+                  </div>
+                  <button
+                    onClick={() => setShowGpsHelp(!showGpsHelp)}
+                    style={{ fontSize: '0.72rem', color: 'var(--color-primary)', textDecoration: 'underline', fontWeight: 600 }}
+                  >
+                    {showGpsHelp ? 'Hide Instructions' : 'How to Unblock?'}
+                  </button>
+                </div>
+                <div style={{ fontSize: '0.76rem', color: '#92400E', lineHeight: 1.4 }}>
+                  Operating in regional preset / network fallback mode. Emergency routing remains fully functional.
+                </div>
+
+                {showGpsHelp && (
+                  <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed #FCD34D', fontSize: '0.74rem', color: '#78350F', lineHeight: 1.5 }}>
+                    <strong>To enable exact device GPS in Chrome/Edge:</strong>
+                    <ol style={{ paddingLeft: '16px', margin: '4px 0' }}>
+                      <li>Click the <strong>Lock / Tune icon (🔒)</strong> next to <code>localhost:5173</code> in the address bar.</li>
+                      <li>Change <strong>Location</strong> from <em>Block</em> to <em>Allow</em>.</li>
+                      <li>In Windows: Ensure <em>Settings &gt; Privacy &gt; Location</em> is turned <strong>ON</strong>.</li>
+                      <li>Click the <strong>Retry GPS</strong> button below.</li>
+                    </ol>
+                  </div>
+                )}
+
+                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                  <button
+                    onClick={() => fetchLocation(true)}
+                    disabled={locationLoading}
+                    className="btn btn-primary"
+                    style={{ fontSize: '0.75rem', padding: '4px 10px', flex: 1, justifyContent: 'center' }}
+                  >
+                    <RefreshCw size={12} className={locationLoading ? 'spin' : ''} />
+                    <span>Retry Browser GPS</span>
+                  </button>
+                  <button
+                    onClick={detectNetworkLocation}
+                    disabled={locationLoading}
+                    className="btn btn-outline"
+                    style={{ fontSize: '0.75rem', padding: '4px 10px', background: '#FFFFFF' }}
+                    title="Attempt automatic IP-based location triangulation"
+                  >
+                    <span>Auto-Detect IP</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Active Coordinates Display (Always available and working) */}
+            {location && (
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                  <span className={`badge ${location.confidence === 'precise' ? 'badge-success' : 'badge-warning'}`}>
-                    {location.confidence === 'precise' ? 'Precise GPS' : 'Approximate'}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
+                  <span className={`badge ${location.is_manual ? 'badge-warning' : location.confidence === 'precise' ? 'badge-success' : 'badge-info'}`}>
+                    {location.is_manual ? 'Manual Area Preset' : location.confidence === 'precise' ? 'High-Accuracy GNSS' : 'Network/Wi-Fi Triangulation'}
                   </span>
                   <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
                     Accuracy: <strong>~{location.accuracy_meters}m</strong>
                   </span>
                 </div>
 
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', marginBottom: '10px', background: '#F8FAFC', padding: '10px 12px', borderRadius: '6px', border: '1px solid var(--bg-card-border)' }}>
-                  <div>Latitude: <strong>{location.latitude}</strong></div>
-                  <div>Longitude: <strong>{location.longitude}</strong></div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', marginBottom: '12px', background: '#F8FAFC', padding: '10px 12px', borderRadius: '6px', border: '1px solid var(--bg-card-border)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>Latitude:</span> <strong>{location.latitude}</strong>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>Longitude:</span> <strong>{location.longitude}</strong>
+                  </div>
+                  <div style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', marginTop: '4px', borderTop: '1px solid #E2E8F0', paddingTop: '4px' }}>
+                    Source: {location.source}
+                  </div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '2px' }}>
                     Updated: {new Date(location.timestamp).toLocaleTimeString()}
                   </div>
                 </div>
 
-                <a
-                  href={location.google_maps_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    fontSize: '0.82rem',
-                    color: 'var(--color-primary)',
-                    fontWeight: 600
-                  }}
-                >
-                  <ExternalLink size={14} />
-                  <span>{t('open_google_maps')}</span>
-                </a>
-              </div>
-            ) : (
-              <div>
-                <div className="badge badge-emergency" style={{ marginBottom: '8px' }}>
-                  {t('loc_unavailable')}
+                {/* 1-Click Regional Fast Switchers */}
+                <div style={{ marginBottom: '12px' }}>
+                  <div style={{ fontSize: '0.76rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>
+                    1-Click Coastal Emergency Presets:
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    <button
+                      type="button"
+                      onClick={() => selectManualLocation('bhatkal_town')}
+                      style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: location.source?.includes('Bhatkal Town') ? 'var(--bg-soft-blue)' : '#F1F5F9', border: location.source?.includes('Bhatkal Town') ? '1px solid var(--color-primary)' : '1px solid #E2E8F0', color: 'var(--text-primary)', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                      📍 Bhatkal Town
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => selectManualLocation('bhatkal_taluka_hospital')}
+                      style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: location.source?.includes('Taluka Hospital') ? 'var(--bg-soft-blue)' : '#F1F5F9', border: location.source?.includes('Taluka Hospital') ? '1px solid var(--color-primary)' : '1px solid #E2E8F0', color: 'var(--text-primary)', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                      🏥 Taluka Hospital
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => selectManualLocation('murdeshwar')}
+                      style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: location.source?.includes('Murdeshwar') ? 'var(--bg-soft-blue)' : '#F1F5F9', border: location.source?.includes('Murdeshwar') ? '1px solid var(--color-primary)' : '1px solid #E2E8F0', color: 'var(--text-primary)', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                      🏖️ Murdeshwar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => selectManualLocation('honnavar')}
+                      style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: location.source?.includes('Honnavar') ? 'var(--bg-soft-blue)' : '#F1F5F9', border: location.source?.includes('Honnavar') ? '1px solid var(--color-primary)' : '1px solid #E2E8F0', color: 'var(--text-primary)', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                      📍 Honnavar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => selectManualLocation('udupi_manipal')}
+                      style={{ fontSize: '0.72rem', padding: '3px 8px', borderRadius: '4px', background: location.source?.includes('Manipal') ? 'var(--bg-soft-blue)' : '#F1F5F9', border: location.source?.includes('Manipal') ? '1px solid var(--color-primary)' : '1px solid #E2E8F0', color: 'var(--text-primary)', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                      🏥 Manipal KMC
+                    </button>
+                  </div>
                 </div>
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                  {location?.error || 'GPS signal not yet acquired. Click Refresh or grant location permission.'}
-                </p>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                  <a
+                    href={location.google_maps_url || `https://www.google.com/maps?q=${location.latitude},${location.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      fontSize: '0.78rem',
+                      padding: '5px 10px',
+                      color: 'var(--color-primary)'
+                    }}
+                  >
+                    <ExternalLink size={13} />
+                    <span>Open in Google Maps</span>
+                  </a>
+
+                  {/* Dropdown for other areas */}
+                  <select
+                    onChange={(e) => e.target.value && selectManualLocation(e.target.value)}
+                    defaultValue=""
+                    style={{ fontSize: '0.75rem', padding: '4px 8px', maxWidth: '170px' }}
+                    title="Change location manually"
+                  >
+                    <option value="" disabled>Other Areas...</option>
+                    {regionalLocations?.map((loc) => (
+                      <option key={loc.id} value={loc.id}>{loc.name}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
             )}
           </div>

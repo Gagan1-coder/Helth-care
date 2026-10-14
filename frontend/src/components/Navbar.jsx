@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useEmergency } from '../context/EmergencyContext';
+import { useAuth } from '../context/AuthContext';
 import { 
   AlertCircle, 
   Hospital, 
@@ -17,12 +18,16 @@ import {
   Menu,
   X,
   PlayCircle,
-  History
+  History,
+  User,
+  LogIn,
+  LogOut
 } from 'lucide-react';
 
 export function Navbar() {
   const { lang, setLang, t } = useLanguage();
   const { activeEmergency, networkOnline, isJudgeDemo } = useEmergency();
+  const { currentUser, logout } = useAuth();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -178,7 +183,7 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Controls: Language Switcher & Mobile Menu Toggle */}
+        {/* Controls: Language Switcher, Auth User & Mobile Menu Toggle */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button
             onClick={() => setLang(lang === 'en' ? 'kn' : 'en')}
@@ -200,6 +205,70 @@ export function Navbar() {
             <Globe size={14} color="var(--color-primary)" />
             <span>{lang === 'en' ? 'ಕನ್ನಡ' : 'English'}</span>
           </button>
+
+          {/* Auth User / Sign In */}
+          {currentUser ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Link
+                to="/auth"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '5px 10px',
+                  borderRadius: 'var(--border-radius-full)',
+                  background: 'var(--bg-soft-blue)',
+                  border: '1px solid #BAE6FD',
+                  color: 'var(--color-primary)',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  textDecoration: 'none'
+                }}
+                title={`Signed in as ${currentUser.displayName || currentUser.email}`}
+              >
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--color-primary)', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.72rem', fontWeight: 800 }}>
+                  {(currentUser.displayName || currentUser.email || 'U')[0].toUpperCase()}
+                </div>
+                <span style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {currentUser.displayName || currentUser.email?.split('@')[0]}
+                </span>
+              </Link>
+              <button
+                onClick={logout}
+                style={{
+                  padding: '6px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-secondary)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                title="Sign Out"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/auth"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 12px',
+                borderRadius: 'var(--border-radius-sm)',
+                background: 'var(--color-primary)',
+                color: '#FFFFFF',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                textDecoration: 'none'
+              }}
+            >
+              <LogIn size={14} />
+              <span>Sign In</span>
+            </Link>
+          )}
 
           {/* Mobile hamburger button */}
           <button
