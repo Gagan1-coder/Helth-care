@@ -1,0 +1,290 @@
+{
+  "experiment_id": "fl_exp_20261014_071705",
+  "model_name": "LifeLink Emergency Triage Classifier (MLP)",
+  "architecture": "Input(8) -> Dense(16, ReLU) -> Dense(1, Sigmoid)",
+  "target_task": "Predict Critical ICU / Emergency Urgency Level",
+  "aggregation_strategy": "FedAvg (Federated Averaging)",
+  "dataset_provenance": "Synthetic Non-IID clinical vital signs generated from standard physiological distributions (HR, SBP, DBP, RR, SpO2, Temp, Age, GCS)",
+  "privacy_notice": "Raw patient vital signs never leave client devices. Only model parameter updates are communicated and averaged.",
+  "clients": [
+    {
+      "client_id": "client_1_bhatkal_rural",
+      "hospital_name": "Bhatkal Taluka Government General Hospital",
+      "facility_type": "Rural Secondary General Hospital",
+      "sample_count": 350,
+      "data_characteristics": "Elderly demographics, respiratory & heat stress cases",
+      "status": "active"
+    },
+    {
+      "client_id": "client_2_manipal_trauma",
+      "hospital_name": "Kasturba Hospital Manipal (KMC)",
+      "facility_type": "Urban Apex Tertiary Trauma Care",
+      "sample_count": 650,
+      "data_characteristics": "High acute polytrauma, severe shock & injury severity",
+      "status": "active"
+    },
+    {
+      "client_id": "client_3_cardiac_specialty",
+      "hospital_name": "Coastal Cardiology Emergency Center",
+      "facility_type": "Specialty Cardiac Emergency Hospital",
+      "sample_count": 450,
+      "data_characteristics": "Acute coronary syndromes, malignant arrhythmias & hypertension",
+      "status": "active"
+    }
+  ],
+  "total_rounds_completed": 5,
+  "latest_global_metrics": {
+    "loss": 0.381,
+    "accuracy": 87.67,
+    "precision": 50.0,
+    "recall": 21.62,
+    "f1_score": 30.19
+  },
+  "baseline_metrics": {
+    "loss": 0.3784,
+    "accuracy": 88.0,
+    "precision": 53.33,
+    "recall": 21.62,
+    "f1_score": 30.77
+  },
+  "rounds": [
+    {
+      "round_number": 1,
+      "participating_clients": [
+        "client_1_bhatkal_rural",
+        "client_2_manipal_trauma",
+        "client_3_cardiac_specialty"
+      ],
+      "client_local_metrics": {
+        "client_1_bhatkal_rural": {
+          "hospital_name": "Bhatkal Taluka Government General Hospital",
+          "samples": 350,
+          "local_loss": 0.4519,
+          "local_accuracy": 82.86,
+          "duration_ms": 0.0
+        },
+        "client_2_manipal_trauma": {
+          "hospital_name": "Kasturba Hospital Manipal (KMC)",
+          "samples": 650,
+          "local_loss": 0.7674,
+          "local_accuracy": 57.85,
+          "duration_ms": 2.06
+        },
+        "client_3_cardiac_specialty": {
+          "hospital_name": "Coastal Cardiology Emergency Center",
+          "samples": 450,
+          "local_loss": 0.5077,
+          "local_accuracy": 76.67,
+          "duration_ms": 0.99
+        }
+      },
+      "global_metrics": {
+        "loss": 0.4401,
+        "accuracy": 86.33,
+        "precision": 38.89,
+        "recall": 18.92,
+        "f1_score": 25.45
+      },
+      "baseline_centralized_metrics": {
+        "loss": 0.3784,
+        "accuracy": 88.0,
+        "precision": 53.33,
+        "recall": 21.62,
+        "f1_score": 30.77
+      },
+      "training_duration_seconds": 0.0,
+      "timestamp": "2026-10-14T07:17:05.871757"
+    },
+    {
+      "round_number": 2,
+      "participating_clients": [
+        "client_1_bhatkal_rural",
+        "client_2_manipal_trauma",
+        "client_3_cardiac_specialty"
+      ],
+      "client_local_metrics": {
+        "client_1_bhatkal_rural": {
+          "hospital_name": "Bhatkal Taluka Government General Hospital",
+          "samples": 350,
+          "local_loss": 0.4404,
+          "local_accuracy": 82.86,
+          "duration_ms": 0.0
+        },
+        "client_2_manipal_trauma": {
+          "hospital_name": "Kasturba Hospital Manipal (KMC)",
+          "samples": 650,
+          "local_loss": 0.7367,
+          "local_accuracy": 59.23,
+          "duration_ms": 1.0
+        },
+        "client_3_cardiac_specialty": {
+          "hospital_name": "Coastal Cardiology Emergency Center",
+          "samples": 450,
+          "local_loss": 0.496,
+          "local_accuracy": 77.11,
+          "duration_ms": 1.0
+        }
+      },
+      "global_metrics": {
+        "loss": 0.4239,
+        "accuracy": 86.33,
+        "precision": 38.89,
+        "recall": 18.92,
+        "f1_score": 25.45
+      },
+      "baseline_centralized_metrics": {
+        "loss": 0.3784,
+        "accuracy": 88.0,
+        "precision": 53.33,
+        "recall": 21.62,
+        "f1_score": 30.77
+      },
+      "training_duration_seconds": 0.0,
+      "timestamp": "2026-10-14T07:17:05.874753"
+    },
+    {
+      "round_number": 3,
+      "participating_clients": [
+        "client_1_bhatkal_rural",
+        "client_2_manipal_trauma",
+        "client_3_cardiac_specialty"
+      ],
+      "client_local_metrics": {
+        "client_1_bhatkal_rural": {
+          "hospital_name": "Bhatkal Taluka Government General Hospital",
+          "samples": 350,
+          "local_loss": 0.4295,
+          "local_accuracy": 83.14,
+          "duration_ms": 1.0
+        },
+        "client_2_manipal_trauma": {
+          "hospital_name": "Kasturba Hospital Manipal (KMC)",
+          "samples": 650,
+          "local_loss": 0.7101,
+          "local_accuracy": 60.92,
+          "duration_ms": 2.0
+        },
+        "client_3_cardiac_specialty": {
+          "hospital_name": "Coastal Cardiology Emergency Center",
+          "samples": 450,
+          "local_loss": 0.4857,
+          "local_accuracy": 78.0,
+          "duration_ms": 1.0
+        }
+      },
+      "global_metrics": {
+        "loss": 0.4085,
+        "accuracy": 86.67,
+        "precision": 42.11,
+        "recall": 21.62,
+        "f1_score": 28.57
+      },
+      "baseline_centralized_metrics": {
+        "loss": 0.3784,
+        "accuracy": 88.0,
+        "precision": 53.33,
+        "recall": 21.62,
+        "f1_score": 30.77
+      },
+      "training_duration_seconds": 0.0,
+      "timestamp": "2026-10-14T07:17:05.878757"
+    },
+    {
+      "round_number": 4,
+      "participating_clients": [
+        "client_1_bhatkal_rural",
+        "client_2_manipal_trauma",
+        "client_3_cardiac_specialty"
+      ],
+      "client_local_metrics": {
+        "client_1_bhatkal_rural": {
+          "hospital_name": "Bhatkal Taluka Government General Hospital",
+          "samples": 350,
+          "local_loss": 0.4194,
+          "local_accuracy": 83.43,
+          "duration_ms": 0.0
+        },
+        "client_2_manipal_trauma": {
+          "hospital_name": "Kasturba Hospital Manipal (KMC)",
+          "samples": 650,
+          "local_loss": 0.6867,
+          "local_accuracy": 63.85,
+          "duration_ms": 1.92
+        },
+        "client_3_cardiac_specialty": {
+          "hospital_name": "Coastal Cardiology Emergency Center",
+          "samples": 450,
+          "local_loss": 0.4764,
+          "local_accuracy": 78.22,
+          "duration_ms": 1.01
+        }
+      },
+      "global_metrics": {
+        "loss": 0.3942,
+        "accuracy": 87.67,
+        "precision": 50.0,
+        "recall": 21.62,
+        "f1_score": 30.19
+      },
+      "baseline_centralized_metrics": {
+        "loss": 0.3784,
+        "accuracy": 88.0,
+        "precision": 53.33,
+        "recall": 21.62,
+        "f1_score": 30.77
+      },
+      "training_duration_seconds": 0.0,
+      "timestamp": "2026-10-14T07:17:05.881693"
+    },
+    {
+      "round_number": 5,
+      "participating_clients": [
+        "client_1_bhatkal_rural",
+        "client_2_manipal_trauma",
+        "client_3_cardiac_specialty"
+      ],
+      "client_local_metrics": {
+        "client_1_bhatkal_rural": {
+          "hospital_name": "Bhatkal Taluka Government General Hospital",
+          "samples": 350,
+          "local_loss": 0.4098,
+          "local_accuracy": 84.29,
+          "duration_ms": 0.99
+        },
+        "client_2_manipal_trauma": {
+          "hospital_name": "Kasturba Hospital Manipal (KMC)",
+          "samples": 650,
+          "local_loss": 0.6657,
+          "local_accuracy": 65.54,
+          "duration_ms": 2.0
+        },
+        "client_3_cardiac_specialty": {
+          "hospital_name": "Coastal Cardiology Emergency Center",
+          "samples": 450,
+          "local_loss": 0.4681,
+          "local_accuracy": 78.44,
+          "duration_ms": 0.0
+        }
+      },
+      "global_metrics": {
+        "loss": 0.381,
+        "accuracy": 87.67,
+        "precision": 50.0,
+        "recall": 21.62,
+        "f1_score": 30.19
+      },
+      "baseline_centralized_metrics": {
+        "loss": 0.3784,
+        "accuracy": 88.0,
+        "precision": 53.33,
+        "recall": 21.62,
+        "f1_score": 30.77
+      },
+      "training_duration_seconds": 0.0,
+      "timestamp": "2026-10-14T07:17:05.884683"
+    }
+  ],
+  "total_runtime_seconds": 0.03,
+  "is_live_experiment": true,
+  "completed_at": "2026-10-14T07:17:05.884683"
+}
